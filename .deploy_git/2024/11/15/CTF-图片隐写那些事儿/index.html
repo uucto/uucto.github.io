@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>CTF-图片隐写那些事儿 | Hexo</title>
+  <meta name="description" content="CTF-图片隐写那些事儿1 steghide分为windows和linux两个版本，（jpg隐藏信息） Steghide是一种隐写程序，能够隐藏各种图像和音频文件中的数据。颜色方面的样本频率不会更改，主要是对jpg文件。   steghide-0.5.1-win32.zip   已下载软件及其版本 以下是kali下使用方法：   steghide爆破密码：  有些题目用steghide加密文件但是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-图片隐写那些事儿">
+<meta property="og:url" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/index.html">
+<meta property="og:site_name" content="uucto">
+<meta property="og:description" content="CTF-图片隐写那些事儿1 steghide分为windows和linux两个版本，（jpg隐藏信息） Steghide是一种隐写程序，能够隐藏各种图像和音频文件中的数据。颜色方面的样本频率不会更改，主要是对jpg文件。   steghide-0.5.1-win32.zip   已下载软件及其版本 以下是kali下使用方法：   steghide爆破密码：  有些题目用steghide加密文件但是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-43-28-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-46-30-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-47-55-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-08-09-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-35-46-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-38-47-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-50-13-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-50-30-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-02-32-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-03-20-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-12-09-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-16-21-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-16-48-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-24-18-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-30-42-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-12-16-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-11-44-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-19-26-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-19-48-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-33-35-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-35-01-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-35-47-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-38-22-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-39-52-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-41-18-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-42-49-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-43-01-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-49-16-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-52-50-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-53-19-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-55-07-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-55-28-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-55-46-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-56-16-image.png">
+<meta property="article:published_time" content="2024-11-15T13:26:39.000Z">
+<meta property="article:modified_time" content="2024-11-15T14:14:53.036Z">
+<meta property="article:author" content="侯哥">
+<meta property="article:tag" content="misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-43-28-image.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="uucto" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">侯哥</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DBA &amp; CTFer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/" rel="tag">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/crypto/" style="font-size: 14px;">crypto</a> <a href="/tags/misc/" style="font-size: 13px;">misc</a> <a href="/tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a><span class="archive-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/Hashcat%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="title">Hashcat使用教程</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:50:13.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/other/">other</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E7%9A%84%E5%85%AC%E5%8F%B8%E8%B4%A2%E5%8A%A1%E6%8A%A5%E8%A1%A8%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/" class="title">一个经典的公司财务报表分析案例</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:43:10.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" class="title">john工具破解密码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:31:09.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" class="title">CTF-图片隐写那些事儿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:26:39.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/web/">web</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" class="title">wireshark 跟踪数据流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:20:24.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-CTF-图片隐写那些事儿" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CTF-图片隐写那些事儿
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" class="article-date">
+	  <time datetime="2024-11-15T13:26:39.000Z" itemprop="datePublished">2024-11-15</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/misc/" rel="tag">misc</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="CTF-图片隐写那些事儿"><a href="#CTF-图片隐写那些事儿" class="headerlink" title="CTF-图片隐写那些事儿"></a>CTF-图片隐写那些事儿</h1><h2 id="1-steghide"><a href="#1-steghide" class="headerlink" title="1 steghide"></a>1 steghide</h2><p>分为windows和linux两个版本，（jpg隐藏信息）</p>
+<p>Steghide是一种隐写程序，能够隐藏各种图像和音频文件中的数据。颜色方面的样本频率不会更改，主要是对jpg文件。</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-43-28-image.png" class="">
+
+<p>steghide-0.5.1-win32.zip   已下载软件及其版本</p>
+<p>以下是kali下使用方法：</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-46-30-image.png" class="">
+
+<p>steghide爆破密码：</p>
+<blockquote>
+<p>有些题目用steghide加密文件但是不给密码，此时就需要爆破，steghide本身并不支持爆破，需要一些其他的方法：<a target="_blank" rel="noopener" href="https://github.com/Va5c0/Steghide-Brute-Force-Tool">GitHub - Va5c0&#x2F;Steghide-Brute-Force-Tool</a></p>
+</blockquote>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-47-55-image.png" class="">
+
+<h2 id="2-stegdetect"><a href="#2-stegdetect" class="headerlink" title="2 stegdetect"></a>2 stegdetect</h2><p>Stegdetect主要用于分析JPEG文件，可以检测到通过JSteg、JPHide、OutGuess、Invisible Secrets、F5、appendX和Camouflage等这些隐写工具隐藏的信息（PS：我没用过）<br>Stegdetect通过统计测试来分析图像文件中是否包含隐藏内容；运行静态测试以判断隐藏的内容是否存在；尝试识别隐藏内容是通过哪个隐写工具嵌入的。</p>
+<p>kali安装命令</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-08-09-image.png" class="">
+
+<p>使用方法：</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-35-46-image.png" class=""><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-38-47-image.png" class="">
+
+<h2 id="3-outguess"><a href="#3-outguess" class="headerlink" title="3 outguess"></a>3 outguess</h2><p>OutGuess是一种通用的隐写工具，允许插入隐藏信息到数据源的冗余位中。</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-50-13-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-11-50-30-image.png" class="">
+
+<p>没有密码的则kali下使用</p>
+<p>outguess -r avatar.jpg -t 1.txt</p>
+<h2 id="4-Stegsolve"><a href="#4-Stegsolve" class="headerlink" title="4 Stegsolve"></a>4 Stegsolve</h2><p>一款ctf中常用的图形化工具，需要安装java环境，破解LSB算法、隐藏二维码等</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-02-32-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-27-12-03-20-image.png" class="">
+
+<p>青少年CTF训练赛–光头强小分队2</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-12-09-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-16-21-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-16-48-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-24-18-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-00-30-42-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-12-16-image.png" class="">
+
+<p>先做反转再添加1，同样能达到上面程序执行的效果：</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-11-44-image.png" class="">
+
+<h2 id="5-F5-steganography"><a href="#5-F5-steganography" class="headerlink" title="5 F5-steganography"></a>5 F5-steganography</h2><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-19-26-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-19-48-image.png" class="">
+
+<h2 id="6-Jphswin"><a href="#6-Jphswin" class="headerlink" title="6 Jphswin"></a>6 Jphswin</h2><p>一款图形化界面的JPHS隐写工具 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1n8rGiHew6U9bxoSAMTT7_w">下载地址</a>（提取码：n9ao）<br>导入图片，加密就点hide输入密码（也可不用密码）然后save一下就好了，解密就点seek输入密码（也可能没密码）</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-33-35-image.png" class="">
+
+<h2 id="7-Zsteg（lsb隐写）"><a href="#7-Zsteg（lsb隐写）" class="headerlink" title="7 Zsteg（lsb隐写）"></a>7 Zsteg（lsb隐写）</h2><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-35-01-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-35-47-image.png" class="">
+
+<h2 id="8-BlindWaterMark"><a href="#8-BlindWaterMark" class="headerlink" title="8 BlindWaterMark"></a>8 BlindWaterMark</h2><p>盲水印脚本-python</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-38-22-image.png" class="">
+
+<p>更多参考<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2069964">CTF-图片隐写那些事儿 - 腾讯云开发者社区-腾讯云</a></p>
+<h2 id="9-silenteye隐写"><a href="#9-silenteye隐写" class="headerlink" title="9 silenteye隐写"></a>9 silenteye隐写</h2><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-39-52-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-41-18-image.png" class="">
+
+<h2 id="10-exiftool（查看图片exif信息）"><a href="#10-exiftool（查看图片exif信息）" class="headerlink" title="10 exiftool（查看图片exif信息）"></a>10 exiftool（查看图片exif信息）</h2><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-42-49-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-43-01-image.png" class="">
+
+<h2 id="11-pngcheck-（检查IDAT块-win）"><a href="#11-pngcheck-（检查IDAT块-win）" class="headerlink" title="11 pngcheck （检查IDAT块_win）"></a>11 pngcheck （检查IDAT块_win）</h2><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-49-16-image.png" class="">
+
+<h2 id="12-WebP（webp文件操作）"><a href="#12-WebP（webp文件操作）" class="headerlink" title="12 WebP（webp文件操作）"></a>12 WebP（webp文件操作）</h2><img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-52-50-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-53-19-image.png" class="">
+
+<h2 id="13-stegpy（支持多种文件加密）"><a href="#13-stegpy（支持多种文件加密）" class="headerlink" title="13 stegpy（支持多种文件加密）"></a>13 stegpy（支持多种文件加密）</h2><p>此种加密支持对PNG、BMP、GIF、WebP和WAV格式加密，同时可以选择有无password</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-55-07-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-55-28-image.png" class="">
+
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-55-46-image.png" class="">
+
+<p>用于解青少年CTF训练赛–光头强小分队2</p>
+<img src="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/2022-11-28-01-56-16-image.png" class="">
+
+<p>更多音视频隐写请：<a target="_blank" rel="noopener" href="http://www.ga1axy.top/index.php/archives/6/#12pngbmp">Misc工具（22.7.6更） - Ga1@xy’s W0r1d</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://localhost:4000/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" title="CTF-图片隐写那些事儿" target="_blank" rel="external">http://localhost:4000/2024/11/15/CTF-图片隐写那些事儿/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">侯哥</span><small class="ml-1x">DBA &amp; CTFer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" title="john工具破解密码"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" title="wireshark 跟踪数据流"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
