@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>john工具破解密码 | Hexo</title>
+  <meta name="description" content="john工具破解密码简单破解 解密这个文件使用 john 自带的一个简单的密码文件，如果猜想用户的密码非常的简单例如 123456 这一类的可以使用这个命令 。比如下面这样。 john passwd.txt稍高级法 如果我们要破解的用户密码稍微高级一些，比如根据用户名来设置密码，我们就需要John -Single 这个命令，原理是根据用户的名称，加上常见的变化而猜测密码。比如此用户叫test，而他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="john工具破解密码">
+<meta property="og:url" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/index.html">
+<meta property="og:site_name" content="uucto">
+<meta property="og:description" content="john工具破解密码简单破解 解密这个文件使用 john 自带的一个简单的密码文件，如果猜想用户的密码非常的简单例如 123456 这一类的可以使用这个命令 。比如下面这样。 john passwd.txt稍高级法 如果我们要破解的用户密码稍微高级一些，比如根据用户名来设置密码，我们就需要John -Single 这个命令，原理是根据用户的名称，加上常见的变化而猜测密码。比如此用户叫test，而他">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2024-11-15-21-36-47-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-01-13-2022-09-04-12-52-42-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-01-35-2022-09-04-12-54-07-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-03-23-2022-09-04-11-19-05-2442110-20220324092722184-817063347.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-04-05-2022-09-04-11-49-56-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-05-33-2022-09-04-14-05-52-2442110-20220324093335099-1014764646.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-06-13-2022-09-04-13-00-45-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-06-30-2022-09-04-13-15-23-image.png">
+<meta property="og:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-06-53-2022-09-04-13-19-12-image.png">
+<meta property="article:published_time" content="2024-11-15T13:31:09.000Z">
+<meta property="article:modified_time" content="2024-11-15T14:19:03.773Z">
+<meta property="article:author" content="侯哥">
+<meta property="article:tag" content="crypto">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2024-11-15-21-36-47-image.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="uucto" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">侯哥</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DBA &amp; CTFer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/other/">other</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/crypto/" rel="tag">crypto</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/misc/" rel="tag">misc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/crypto/" style="font-size: 14px;">crypto</a> <a href="/tags/misc/" style="font-size: 13px;">misc</a> <a href="/tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a><span class="archive-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/16/hexo%E7%9C%9F%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/" class="title">hexo真是个好东西</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T16:00:00.000Z" itemprop="datePublished">2024-11-16</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/Hashcat%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="title">Hashcat使用教程</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:50:13.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/other/">other</a>
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E7%9A%84%E5%85%AC%E5%8F%B8%E8%B4%A2%E5%8A%A1%E6%8A%A5%E8%A1%A8%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/" class="title">一个经典的公司财务报表分析案例</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:43:10.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" class="title">john工具破解密码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:31:09.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" class="title">CTF-图片隐写那些事儿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2024-11-15T13:26:39.000Z" itemprop="datePublished">2024-11-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-john工具破解密码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      john工具破解密码
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" class="article-date">
+	  <time datetime="2024-11-15T13:31:09.000Z" itemprop="datePublished">2024-11-15</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/crypto/" rel="tag">crypto</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h4 id="john工具破解密码"><a href="#john工具破解密码" class="headerlink" title="john工具破解密码"></a>john工具破解密码</h4><p>简单破解</p>
+<p>解密这个文件使用 john 自带的一个简单的密码文件，如果猜想用户的密码非常的简单例如 123456 这一类的可以使用这个命令 。比如下面这样。</p>
+<p>john passwd.txt<br>稍高级法</p>
+<p>如果我们要破解的用户密码稍微高级一些，比如根据用户名来设置密码，我们就需要John -Single 这个命令，原理是根据用户的名称，加上常见的变化而猜测密码。比如此用户叫test，而他的密码是test123、test1、tset、test123、…。</p>
+<p>john –single passwd.txt<br>自定义字典破解 –wordlist 参数</p>
+<p>john –wordlist&#x3D;big.txt passwd.txt<br>–rules 参数</p>
+<p>-rules参数则在此基础上再加上些变化，如字典中有单词test，则john还会尝试使用tes、teSt、 tset等单词变化进行解密。</p>
+<p>john –wordlist&#x3D;big.txt passwd.txt –rules<br>–restory 参数</p>
+<p>如果在破解密码的过程中由于某些原因中断了破解，使用 restory 继续破解密码 。</p>
+<p>–incrementa 参数</p>
+<p>使用遍历模式，就是使用字幕数字等组合密码的所有可能情况，一般不用，太浪费时间。如果你电脑速度够快又有足够的时间，可以来使用这种方式，这是威力最大的方式。</p>
+<p>–fork 参数</p>
+<p>同时开启多少个进程执行</p>
+<p>john –format&#x3D;mysql-sha1 –wordlist&#x3D;&#x2F;usr&#x2F;share&#x2F;wordlists&#x2F;rockyou.txt passwd.txt –fork&#x3D;10<br>当我们破解成功后，john会将破解成功的hash缓存在我们家目录的<code>.john/john.pot</code>文件中，需要我们手动进行删除，否则下次爆破会出现</p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2024-11-15-21-36-47-image.png" class="">
+
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-01-13-2022-09-04-12-52-42-image.png" class="">
+
+<p>意思就是让我们<code>--show</code>查看破解成功的密码，或者<code>--format=LM</code>指定破解类型<br>需要手动删除<code>rm -rf ~/.john/john.pot</code></p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-01-35-2022-09-04-12-54-07-image.png" class="">
+
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-03-23-2022-09-04-11-19-05-2442110-20220324092722184-817063347.png" class="">
+
+<p>我们知道<code>windows hash</code>的加密为<code>NTLM</code>，需要我们<code>--format</code>指定</p>
+<p><code>--list=formats</code>和<code>--list=subformats</code>可以查看所支持的破解类型</p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-04-05-2022-09-04-11-49-56-image.png" class="">
+
+<p><strong>不指定破解类型和字典直接破解</strong> john会自动进行使用默认的字典，并识别我们的hash类型进行自动选择</p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-05-33-2022-09-04-14-05-52-2442110-20220324093335099-1014764646.png" class="">
+
+<p>&#x2F;usr&#x2F;share&#x2F;john目录下获取各种格式哈希的脚本工具</p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-06-13-2022-09-04-13-00-45-image.png" class="">
+
+<p>命令方式</p>
+<p><code> /usr/share/john/office2john.py /root/test.docx &gt; docx.txt</code></p>
+<p>指定掩码模式</p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-06-30-2022-09-04-13-15-23-image.png" class="">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d=数字</span><br><span class="line">a=键盘95字</span><br><span class="line">l=英文小写</span><br><span class="line">u=英文大写</span><br></pre></td></tr></table></figure>
+
+<p>可以提前检查掩码设置是否正确 <code> # john --mask=?d?d?d?d?d --stdout|head</code></p>
+<img src="/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/2022-12-21-13-06-53-2022-09-04-13-19-12-image.png" class="">
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://localhost:4000/2024/11/15/john%E5%B7%A5%E5%85%B7%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81/" title="john工具破解密码" target="_blank" rel="external">http://localhost:4000/2024/11/15/john工具破解密码/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">侯哥</span><small class="ml-1x">DBA &amp; CTFer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2024/11/15/%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E7%9A%84%E5%85%AC%E5%8F%B8%E8%B4%A2%E5%8A%A1%E6%8A%A5%E8%A1%A8%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/" title="一个经典的公司财务报表分析案例"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" title="CTF-图片隐写那些事儿"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
