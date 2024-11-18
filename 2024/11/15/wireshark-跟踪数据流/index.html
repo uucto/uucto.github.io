@@ -50,8 +50,6 @@
   
   
   
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
-  
 <meta name="generator" content="Hexo 7.3.0"></head>
 
 
@@ -388,13 +386,11 @@
 
 
         
-	<span class="article-read hidden-xs">
-	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
-	    <span id="busuanzi_container_page_pv">
-			<span id="busuanzi_value_page_pv">0</span>
-		</span>
-	</span>
 
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" class="leancloud_visitors"  data-flag-title="wireshark 跟踪数据流">0</span>
+    </span>
 
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/#comments" class="article-comment-link">评论</a></span>
         
@@ -452,7 +448,7 @@
     
   <section id="comments">
   	
-           
+      <div id="vcomments"></div>
     
   </section>
 
@@ -601,32 +597,125 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
    
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
+<!-- custom analytics part create by xiamo -->
+<script defer src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script defer>
+AV.init({
+  appId: 'e73snKefZxqPNdCZhun3WGK8-gzGzoHsz# leancloud &lt;AppID&gt;',
+  appKey: 'GH7Mogc5ZYpfILcd29Dw2Mzd# leancloud &lt;AppKey&gt;'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
 
 
 
    
     
-  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
-  <script src="//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
   <script type="text/javascript">
-  var gitalk = new Gitalk({
-    clientID: 'Ov23liYkJ7bpT5A7ajkR',
-    clientSecret: 'b1d958ff7641201c97b9abfb9462e2b269faef20',
-    repo: 'uucto.github.io',
-    owner: 'uucto',
-    admin: ['uucto'],
-    id: md5(location.pathname),
-    distractionFreeMode: true,
-    language: 'zh-CN',
-    enableHotKey: 'true'
-  })
-  gitalk.render('comments')
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'UKWxd3g0fAJr22bzqfjEH1tA-gzGzoHsz',
+    appKey: 'GOAXBQB1fwkPhWZfwfaZTa4F',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
   </script>
-      
+
+     
 
 
 
