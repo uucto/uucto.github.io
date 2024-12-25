@@ -17,27 +17,28 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>wireshark 跟踪数据流 | Hexo</title>
-  <meta name="description" content="wireshark 跟踪数据流 黑客A通过ARP欺骗，使用Wireshark获取了整个局域网内的网络流量信息。无意之中，他发现有人在某个网站上上传了一份文件。但是他不知道怎么样通过Wireshark去还原这份文件，没办法，他将监听到的数据包保存为了一份Wireshark的监听记录 可以自己准备一张图片test.jpg，并随便找一个允许上传的网站，然后用Wireshark将上传的过程抓包，这里我已经">
+  <title>编码解码 | Hexo</title>
+  <meta name="description" content="编码解码 编码是什么？  编码是信息从一种形式或格式转换为另一种形式的过程，也称为计算机 编程语言的代码简称编码。 用预先规定的方法将文字、数字或其它对象编成数码，或将信息、数据 转换成规定的电脉冲信号。   编码在电子计算机、电视、遥控和通讯等方面广泛使用。编码是信息从 一种形式或格式转换为另一种形式的过程。解码，是编码的逆过程。 Base编码  Base64是网络上最常见的用于传输8Bit字节">
 <meta property="og:type" content="article">
-<meta property="og:title" content="wireshark 跟踪数据流">
-<meta property="og:url" content="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/index.html">
+<meta property="og:title" content="编码解码">
+<meta property="og:url" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/index.html">
 <meta property="og:site_name" content="uucto">
-<meta property="og:description" content="wireshark 跟踪数据流 黑客A通过ARP欺骗，使用Wireshark获取了整个局域网内的网络流量信息。无意之中，他发现有人在某个网站上上传了一份文件。但是他不知道怎么样通过Wireshark去还原这份文件，没办法，他将监听到的数据包保存为了一份Wireshark的监听记录 可以自己准备一张图片test.jpg，并随便找一个允许上传的网站，然后用Wireshark将上传的过程抓包，这里我已经">
+<meta property="og:description" content="编码解码 编码是什么？  编码是信息从一种形式或格式转换为另一种形式的过程，也称为计算机 编程语言的代码简称编码。 用预先规定的方法将文字、数字或其它对象编成数码，或将信息、数据 转换成规定的电脉冲信号。   编码在电子计算机、电视、遥控和通讯等方面广泛使用。编码是信息从 一种形式或格式转换为另一种形式的过程。解码，是编码的逆过程。 Base编码  Base64是网络上最常见的用于传输8Bit字节">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-58-41-2022-09-13-23-43-43-image.png">
-<meta property="og:image" content="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-59-14-2022-09-13-23-44-29-image.png">
-<meta property="og:image" content="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-59-47-2022-09-13-23-49-12-image.png">
-<meta property="og:image" content="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-13-00-13-2022-09-13-23-46-04-image.png">
-<meta property="article:published_time" content="2024-11-15T13:20:24.000Z">
-<meta property="article:modified_time" content="2024-11-20T15:12:46.072Z">
+<meta property="og:image" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-09-03-2022-09-04-21-15-11-image.png">
+<meta property="og:image" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-09-56-2022-09-04-21-25-38-20180913185744781.png">
+<meta property="og:image" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-10-58-2022-09-04-21-30-02-20180913163811780.png">
+<meta property="og:image" content="https://uucto.github.io/images/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-11-52-2022-09-04-21-29-21-20180913164631741.png">
+<meta property="og:image" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-13-16-2022-09-18-03-29-57-image.png">
+<meta property="og:image" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-13-51-2022-09-18-03-31-29-image.png">
+<meta property="article:published_time" content="2024-12-25T12:34:38.000Z">
+<meta property="article:modified_time" content="2024-12-25T13:26:43.801Z">
 <meta property="article:author" content="侯哥">
-<meta property="article:tag" content="wireshark">
-<meta property="article:tag" content="流量">
+<meta property="article:tag" content="uucto,uuctf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-58-41-2022-09-13-23-43-43-image.png">
+<meta name="twitter:image" content="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-09-03-2022-09-04-21-15-11-image.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://uucto.github.io/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/index.html">
+  <link rel="canonical" href="https://uucto.github.io/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/index.html">
   
     <link rel="alternate" href="/atom.xml" title="uucto" type="application/atom+xml">
   
@@ -354,14 +355,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-wireshark-跟踪数据流" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-编码解码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      wireshark 跟踪数据流
+      编码解码
     </h1>
   
 
@@ -369,56 +370,75 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" class="article-date">
-	  <time datetime="2024-11-15T13:20:24.000Z" itemprop="datePublished">2024-11-15</time>
+	<a href="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/" class="article-date">
+	  <time datetime="2024-12-25T12:34:38.000Z" itemprop="datePublished">2024-12-25</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/web/">web</a>
+    <a class="article-category-link" href="/categories/crypto/">crypto</a>
   </span>
 
         
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/wireshark/" rel="tag">wireshark</a>, <a class="article-tag-link-link" href="/tags/%E6%B5%81%E9%87%8F/" rel="tag">流量</a>
-  </span>
-
 
         
 
 	<span class="article-read hidden-xs">
     	<i class="icon icon-eye-fill" aria-hidden="true"></i>
-    	<span id="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/" class="leancloud_visitors"  data-flag-title="wireshark 跟踪数据流">0</span>
+    	<span id="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/" class="leancloud_visitors"  data-flag-title="编码解码">0</span>
     </span>
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>wireshark 跟踪数据流</p>
-<p>黑客A通过ARP欺骗，使用Wireshark获取了整个局域网内的网络流量信息。无意之中，他发现有人在某个网站上上传了一份文件。但是他不知道怎么样通过Wireshark去还原这份文件，没办法，他将监听到的数据包保存为了一份Wireshark的监听记录</p>
-<p>可以自己准备一张图片test.jpg，并随便找一个允许上传的网站，然后用Wireshark将上传的过程抓包，这里我已经将自己的抓包结果保存成文件catchme.pcapng</p>
-<p>使用显示过滤器进行过滤，由于上传文件采用的是HTTP协议，因而使用过滤规则“http”，过滤之后发现数据包由原来的344个变成了137个，这样就很容易帮我们分析了。仔细分析，我们会在第209条数据包的info中看到upload这个词，我们怀疑这条就是涉及到上传的数据包。</p>
-<p>由于上传文件都是采用POST方法，因而我们也可以使用过滤规则“http.request.method&#x3D;&#x3D;POST”进行更精确的过滤，这时就只有47个数据包了。因而掌握数据包过滤，是熟练掌握Wireshark的必备技能之一。</p>
-<p>虽然我们看到了有upload关键字，有POST方法，但是我们不能确定是不是真的就是上传文件的那个请求。双击第209号数据包进行专门分析，在应用层数据中可以看到确实是上传了文件，而且文件名是test.jpg。</p>
-<img src="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-58-41-2022-09-13-23-43-43-image.png" class="">
+        <p>编码解码</p>
+<p>编码是什么？<br>  编码是信息从一种形式或格式转换为另一种形式的过程，也称为计算机 编程语言的代码简称编码。 用预先规定的方法将文字、数字或其它对象编成数码，或将信息、数据 转换成规定的电脉冲信号。</p>
+<p>  编码在电子计算机、电视、遥控和通讯等方面广泛使用。编码是信息从 一种形式或格式转换为另一种形式的过程。解码，是编码的逆过程。</p>
+<p>Base编码<br>  Base64是网络上最常见的用于传输8Bit字节码的编码方式之一，Base64 就是一种基于64(65)个可打印字符来表示二进制数据的方法。 a-z、A-Z、0-9、符号“+”、“&#x2F;”（再加上作为补位的”&#x3D;”，实际上是 65个字符） 。</p>
+<p>  Base xx 中的 xx 表示的是采用多少个字符进行编码，比如说 base64 就是采用 64 个字符编码，由于 2 的 6 次方等于 64，所以每 6 个比特 为一个单元，对应某个可打印字符。</p>
+<p>例如：d2VsY29tZQ&#x3D;&#x3D;   &#x3D;&#x3D;&gt;welcome</p>
+<p><mark>特点</mark>：base64 结尾可能会有&#x3D;号，但最多有2个 ，长度一定会被4整除，字符集只有[a-z][A-Z][0-9]+&#x2F;<br>          base32 结尾可能会有&#x3D;号,最多有 3 个等号。<br>          根据 base 的不同，字符集会有所限制 。<br>          有可能需要自己加等号。</p>
+<img src="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-09-03-2022-09-04-21-15-11-image.png" class="" title="loading-ag-166">
 
-<p>在传输层部分可以看到，由于文件比较大，TCP协议将其分成了16个数据段Segment，每个数据段都是一个独立的数据包，点击各个Frame，就可以看到数据包中的内容。</p>
-<img src="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-59-14-2022-09-13-23-44-29-image.png" class="">
+<p>URL编码<br>  URL编码,又叫百分号编码，是统一资源定位(URL)编码方式。URL地址 （常说网址）规定了常用地数字，字母可以直接使用，另外一批作为特殊 用户字符也可以直接用（&#x2F;,:@等），剩下的其它所有字符必须通过%xx编码 处理。 现在已经成为一种规范了，基本所有程序语言都有这种编码，如js： 有encodeURI、encodeURIComponent，PHP有 urlencode、urldecode等。编 码方法很简单，在该字节ascii码的的16进制字符前面加%. 如空格字符， ascii码是32，对应16进制是‘20’，那么urlencode编码结果是:%20。</p>
+<p>例如：URL%E7%BC%96%E7%A0%81   &#x3D;&#x3D;&gt; URL编码</p>
+<p>特点：存在大量的%<br>Unicode编码<br>  ​​​​​​​Unicode（统一码、万国码、单一码）是计算机科学领域里的一项业界 标准,包括字符集、编码方案等。Unicode 是为了解决传统的字符编码方案 的局限而产生的，它为每种语言中的每个字符设定了统一并且唯一的二进 制编码，以满足跨语言、跨平台进行文本转换、处理的要求。1990年开始 研发，1994年正式公布。</p>
+<img src="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-09-56-2022-09-04-21-25-38-20180913185744781.png" class="">
 
-<p>但问题是每个数据包中都只包含了上传文件的一部分，要想还原上传的文件，就必须将这些被分片的数据包重新组合成一个整体。在Wireshark中提供了一项“数据流追踪”功能，就可以来完成这项任务。</p>
-<p>回到Wireshark的主界面，在209号数据包上点击右键，选择“追踪流&#x2F;TCP流”，</p>
-<img src="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-12-59-47-2022-09-13-23-49-12-image.png" class="">
+<p><strong>例如：&#72;&#101;&#108;&#108;&#111;&#67;&#84;&#70;    &#x3D;&#x3D;&gt;  HelloCTF</strong></p>
+<p>凯撒密码<br>  凯撒密码（Caesar）加密时会将明文中的每个字母都按照其在字母表中的顺序向后（或 向前）移动固定数目（循环移动）作为密文。例如，当偏移量是左移 3 的时候（解密时 的密钥就是 3）。</p>
+<p>  使用时，加密者查找明文字母表中需要加密的消息中的每一个字母所在位置，并且写下密 文字母表中对应的字母。需要解密的人则根据事先已知的密钥反过来操作，得到原来的明文。</p>
+<p>  根据偏移量的不同，还存在若干特定的恺撒密码名称：</p>
+<p>  偏移量为 10：Avocat （A→K）</p>
+<p>  偏移量为 13：ROT13<br><strong>偏移量为 -5：Cassis （K 6）</strong></p>
+<p>  <strong>偏移量为 -6：Cassette （K 7）</strong></p>
+<p><strong>例如：Uryyb,Jrypbzr   &#x3D;&#x3D;&gt; Hello,Welcome</strong></p>
+<p>Morse编码<br>  摩尔斯电码(Morse code)是一种时通时断的信号代码，通过不同的排列 顺序来表达不同的英文字母、数字和标点符号。是由美国人艾尔菲德·维 尔(Alfred Lewis Vail)与萨缪尔·摩尔斯(Samuel Finley Breese Morse) 在1836年发明。由点（·）和划（-）组成。</p>
+<img src="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-10-58-2022-09-04-21-30-02-20180913163811780.png" class="">
 
-<p>这时整个TCP流就会在一个单独的窗口中显示出来，我们注意到这个窗口中的文件以两种颜色显示，其中红色用来标明从源地址前往目的地址的流量，而蓝色用来区分出相反方向也就是从目的地址到源地址的流量。</p>
-<p>将数据流保存成原始文件，以便下一步处理。需要注意的是，在保存之前一定要将数据的显示格式设置为“<mark>原始数据</mark>”。</p>
-<img src="/2024/11/15/wireshark-%E8%B7%9F%E8%B8%AA%E6%95%B0%E6%8D%AE%E6%B5%81/2022-12-21-13-00-13-2022-09-13-23-46-04-image.png" class="">
+<p>例如： –&#x2F;—&#x2F;.-.&#x2F;…&#x2F;.  &#x3D;&#x3D;&gt; MORSE</p>
+<p>特点：只有.和-（中间可用&#x2F;隔开）组成，最多6位</p>
+<p>ASCII编码<br>ASCII(American Standard Code for Information Interchange，美国信息交换标准代码)是基于拉丁字母的一套 电脑编码系统，主要用于显示现代英语和其他西欧语言。它是现今最通用的单字节编码系统，并等同于国际标准ISO&#x2F;IEC 646。<br><img src="/images/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-11-52-2022-09-04-21-29-21-20180913164631741.png"></p>
+<p><strong>例如：72 105 65 115 99 105 105  &#x3D;&#x3D;&gt;H i A s c i i</strong></p>
+<p>特点：一般常用字符为0-9（48-57）、A-Z（65-90）、a-z（97-122）、空格（32）</p>
+<ul>
+<li><h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2></li>
+</ul>
+<img src="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-13-16-2022-09-18-03-29-57-image.png" class="">
 
-<p>这里将文件的扩展名指定为.bin，以使用二进制形式保存文件。</p>
+<blockquote>
+<p>第一步：“M”、“a”、”n”对应的ASCII码值分别为77，97，110，对应的二进制值是01001101、01100001、01101110。如图第二三行所示，由此组成一个24位的二进制字符串。<br>第二步：如图红色框，将24位每6位二进制位一组分成四组。<br>第三步：在上面每一组前面补两个0，扩展成32个二进制位，此时变为四个字节：00010011、00010110、00000101、00101110。分别对应的值（Base64编码索引）为：19、22、5、46。<br>第四步：用上面的值在Base64编码表中进行查找，分别对应：T、W、F、u。因此“Man”Base64编码之后就变为：TWFu。</p>
+</blockquote>
+<p>位数不足情况</p>
+<img src="/2024/12/25/%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81/2022-12-21-00-13-51-2022-09-18-03-31-29-image.png" class="">
+
+<blockquote>
+<p>两个字节：两个字节共16个二进制位，依旧按照规则进行分组。此时总共16个二进制位，每6个一组，则第三组缺少2位，用0补齐，得到三个Base64编码，第四组完全没有数据则用“&#x3D;”补上。因此，上图中“BC”转换之后为“QKM&#x3D;”；<br>一个字节：一个字节共8个二进制位，依旧按照规则进行分组。此时共8个二进制位，每6个一组，则第二组缺少4位，用0补齐，得到两个Base64编码，而后面两组没有对应数据，都用“&#x3D;”补上。因此，上图中“A”转换之后为“QQ&#x3D;&#x3D;”；</p>
+</blockquote>
 
       
     </div>
@@ -462,13 +482,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2024/11/15/CTF-%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" title="CTF-图片隐写那些事儿"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2024/11/15/Ciphey%E7%9A%84%E6%A6%82%E8%BF%B0/" title="Ciphey的概述"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2024/11/16/hexo%E7%9C%9F%E6%98%AF%E4%B8%AA%E5%A5%BD%E4%B8%9C%E8%A5%BF/" title="hexo真是个好东西"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
